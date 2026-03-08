@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App theme must extend an AppCompat/MaterialComponents theme
+         so Material widgets like AppBarLayout can be inflated -->
+    <style name="Theme.Architecture2" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+</resources>
