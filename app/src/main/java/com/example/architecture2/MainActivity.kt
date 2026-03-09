@@ -144,35 +144,6 @@ class MainActivity : AppCompatActivity(), ContactAdapter.ContactClickListener {
             .show()
     }
 
-    override fun onExport(contact: ContactModel) {
-        val uri = VCardUtils.createVCardFile(this, contact)
-        if (uri == null) {
-            AlertDialog.Builder(this)
-                .setMessage(R.string.export_error)
-                .setPositiveButton(android.R.string.ok, null)
-                .show()
-            return
-        }
-
-        // Try to open directly in the system Contacts app first
-        val contactsIntent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, "text/x-vcard")
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            `package` = "com.android.contacts"
-        }
-
-        val fallbackIntent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, "text/x-vcard")
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-
-        try {
-            startActivity(contactsIntent)
-        } catch (e: Exception) {
-            startActivity(Intent.createChooser(fallbackIntent, getString(R.string.import_contact_via)))
-        }
-    }
-
     companion object {
         private const val REQUEST_IMPORT_VCARD = 1001
     }

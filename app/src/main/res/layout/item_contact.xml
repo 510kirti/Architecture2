@@ -102,20 +102,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/delete"
                 android:src="@android:drawable/ic_menu_delete" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExportToPhone"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:minHeight="0dp"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:text="@string/export_to_phone_contacts"
-                app:icon="@android:drawable/ic_menu_upload"
-                app:iconGravity="textStart"
-                app:iconPadding="4dp" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

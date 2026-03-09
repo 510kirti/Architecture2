@@ -17,7 +17,6 @@ class ContactAdapter(
         fun onCall(contact: ContactModel)
         fun onEdit(contact: ContactModel)
         fun onDelete(contact: ContactModel)
-        fun onExport(contact: ContactModel)
     }
 
     fun updateData(newItems: List<ContactModel>) {
@@ -45,7 +44,6 @@ class ContactAdapter(
         private val btnCall: ImageButton = itemView.findViewById(R.id.btnCall)
         private val btnEdit: ImageButton = itemView.findViewById(R.id.btnEdit)
         private val btnDelete: ImageButton = itemView.findViewById(R.id.btnDelete)
-        private val btnExportToPhone: MaterialButton = itemView.findViewById(R.id.btnExportToPhone)
 
         fun bind(contact: ContactModel) {
             nameText.text = contact.fullName.ifBlank { contact.phone }
@@ -72,7 +70,6 @@ class ContactAdapter(
             btnCall.setOnClickListener { listener.onCall(contact) }
             btnEdit.setOnClickListener { listener.onEdit(contact) }
             btnDelete.setOnClickListener { listener.onDelete(contact) }
-            btnExportToPhone.setOnClickListener { listener.onExport(contact) }
 
             itemView.setOnClickListener { listener.onCall(contact) }
         }

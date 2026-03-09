@@ -1,5 +1,6 @@
 package com.example.architecture2
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
@@ -89,14 +90,49 @@ class AddContactActivity : AppCompatActivity() {
         )
 
         if (existingContact == null) {
-            dbHelper.insertContact(contact)
-            Toast.makeText(this, R.string.contact_added, Toast.LENGTH_SHORT).show()
+            val newId = dbHelper.insertContact(contact)
+            if (newId == -1L) {
+                Toast.makeText(this, R.string.export_error, Toast.LENGTH_SHORT).show()
+            } else {
+                val savedContact = contact.copy(id = newId)
+                Toast.makeText(this, R.string.contact_added, Toast.LENGTH_SHORT).show()
+                exportToSystemContacts(savedContact)
+            }
         } else {
             dbHelper.updateContact(contact)
             Toast.makeText(this, R.string.contact_updated, Toast.LENGTH_SHORT).show()
         }
 
         finish()
+    }
+
+    private fun exportToSystemContacts(contact: ContactModel) {
+        val uri = VCardUtils.createVCardFile(this, contact)
+        if (uri == null) {
+            Toast.makeText(this, R.string.export_error, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val contactsIntent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "text/x-vcard")
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            `package` = "com.android.contacts"
+        }
+
+        val fallbackIntent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "text/x-vcard")
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+
+        try {
+            startActivity(contactsIntent)
+        } catch (e: Exception) {
+            try {
+                startActivity(fallbackIntent)
+            } catch (_: Exception) {
+                Toast.makeText(this, R.string.export_error, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {
